@@ -48,6 +48,7 @@ exports.updateWarehouseByID = async (req, res) => {
       outsideImage: req.files?.outsideImage?.[0]?.filename || req.body.outsideImage,
     };
 
+    
     const warehouse = await warehouseService.updateWarehouseByID(id, updatedData);
 
     if (!warehouse) {
