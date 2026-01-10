@@ -1,0 +1,75 @@
+@import "~bootstrap/scss/functions";
+@import "~bootstrap/scss/variables";
+@import "~bootstrap/scss/maps";
+@import "~bootstrap/scss/mixins";
+
+$custom-utilities: (
+    "font-size": (property: font-size,
+        class: fs,
+        responsive: true,
+        values: (
+            // 09rem: 0.9rem, // for small screen
+            // 1rem: 1rem, // for medium screens
+            // 11rem: 1.1rem // for large screens
+            small: 0.9rem, 
+            base: 1rem, 
+            large: 1.1rem
+        )),
+
+    "gap":(property: gap,
+        class:g,
+        responsive:true,
+        values:(
+            // 05rem: 0.5rem,
+            // 09rem:0.9rem,
+            // 12rem:1.2rem
+            small: 0.5rem, 
+            base: 0.9rem, 
+            large: 1.2rem
+            )),
+
+    "width": (property: width,
+        class: w,
+        responsive:true,
+        values: (150px: 150px,
+            // 40vh: 40vh,
+            23em: 23em,
+            5em: 5em,
+            20em:20em)),
+
+    "right": (property: right,
+        class: r,
+        responsive:true,
+        values: (15: 15%,
+
+        ))
+);
+
+.h-2em {
+    height: 2em !important;
+}
+
+.hr-line {
+    height: 0.1em;
+}
+
+.fs-small {
+    font-size: 0.8em
+}
+
+.right-15 {
+    right: 15% !important;
+}
+
+// .width-10vh {
+//     width: 10vh;
+// }
+
+// Merge AFTER bootstrap/utilities has declared $utilities
+@import "~bootstrap/scss/utilities";
+
+// Now extend
+$utilities: map-merge($utilities, $custom-utilities);
+
+// Re‑generate utilities with the merged map
+@import "~bootstrap/scss/utilities/api";
