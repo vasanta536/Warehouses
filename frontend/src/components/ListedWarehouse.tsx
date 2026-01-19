@@ -4,6 +4,11 @@ import { useNavigate } from "react-router-dom";
 import SearchIcon from '@mui/icons-material/Search';
 import homeLogo from '../assets/homeLogo.jpg';
 import CustomPagination from "./Pagination";
+import { useSelector, useDispatch } from 'react-redux';
+import { RootState } from '../app/store'
+// import { increment, decrement } from '../features/counter/counterSlice';
+import { setPerPageCount } from '../features/counter/counterSlice';
+
 
 type Warehouse = {
   _id: string;
@@ -21,6 +26,12 @@ const ListedWarehouse: React.FC = () => {
   // const API_URL = process.env.REACT_APP_MONGODB_API_URL ||"http://localhost:5000/api"; 
 const API_URL = process.env.REACT_APP_POSTGRES_API_URL||"http://localhost:5001/api"; 
 
+//  const countVal = useSelector((state: RootState) => state.counter.value);
+ const perPageVal = useSelector((state: RootState) => state.perPage.value);
+ console.log("???????????perPageVal",perPageVal)
+
+  const dispatch = useDispatch();
+
   const [warehouses, setWarehouses] = useState<Warehouse[]>([]);
   const [nameSearch, setNameSearch] = useState("");
   const [stateSearch, setStateSearch] = useState("");
@@ -28,7 +39,7 @@ const API_URL = process.env.REACT_APP_POSTGRES_API_URL||"http://localhost:5001/a
 
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const [PerPage, setPerPage]=useState(1)
+  // const [PerPage, setPerPage]=useState(5)
   const [count,setCount]=useState(0)
 const itemsPerPage = useRef<HTMLSelectElement>(null);
 const navigate = useNavigate();
@@ -38,7 +49,8 @@ const navigate = useNavigate();
     axios.get(`${API_URL}/warehouses`, {
       params: {
         page,
-        limit:PerPage,
+        // limit:PerPage,
+        limit:perPageVal,
         name: nameSearch,
         stateName: stateSearch,
         city: citySearch,
@@ -54,37 +66,47 @@ const navigate = useNavigate();
   };
   useEffect(() => {
     fetchWarehouses(1);
-  }, [PerPage]);
+  // }, [PerPage]);
+  }, [perPageVal]);
+
 
   const handleSearch = () => {
     fetchWarehouses(1);
   };
 
-  function roundUpToNearestFive(val: number): number { 
-    return Math.ceil(val / 1) * 1; 
+  const getCumulativeRanges = (val: number): { label: string; end: number }[] => {
+  const ranges: { label: string; end: number }[] = [];
+  const max = Math.min(val, 15); // clamp to 15
+
+  for (let end = 5; end <= max; end += 5) {
+    ranges.push({ label: `1 - ${end}`, end });
   }
 
-  const getOptions = (val: number): number[] => { 
-    const options: number[] = []; 
-    for (let i = 1; i <= val; i += 1) {
-       options.push(i); 
-      } 
-      const rounded = roundUpToNearestFive(val); 
-      if (!options.includes(rounded))
-         { options.push(rounded); } return options;
-    };
-    const options = getOptions(count);
+  // If max isn't a multiple of 5, add the final range
+  if (max % 5 !== 0) {
+    ranges.push({ label: `1 - ${max}`, end: max });
+  }
 
-    console.log("totalItems...",count)
+  return ranges;
+};
 
-    const dropdownHandler=(e: React.ChangeEvent<HTMLSelectElement>)=>{
-        setPerPage(Number(itemsPerPage.current?.value))
-    }
+  const options = getCumulativeRanges(count);
 
-  const editWarehouse= async(id:string)=>{
-    console.log("heeeeeeee",id)
-    navigate("/add-warehouse", 
-      { state: { id: id }}
+  console.log("totalItems...", count)
+
+  const dropdownHandler = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    console.log(">>>>>>>>>>>>>>>>>>",Number(itemsPerPage.current?.value))
+    // setPerPage(Number(itemsPerPage.current?.value))
+    // dispatch(setPerPageCount(Number(e.target.value)));
+    // dispatch(setPerPageCount(15))
+    const selected = Number(e.target.value); // <-- use the actual selected value 
+    dispatch(setPerPageCount(selected));
+  }
+
+  const editWarehouse = async (id: string) => {
+    console.log("heeeeeeee", id)
+    navigate("/add-warehouse",
+      { state: { id: id } }
     );
   }
 
@@ -105,14 +127,21 @@ const navigate = useNavigate();
           </div>
           
           <div className='d-flex align-items-center m-2'>
-            <h2 className='fs-lg-5 fs-sm-6 fs-base fw-bold mb-0'>rows:</h2>
-             <select id="dropdown" ref={itemsPerPage} onChange={(e) => { dropdownHandler(e) }} className="fs-small fs-md-base fs-lg-large form-select bg-primary text-white me-2 mx-sm-3">
+            <h2 className='fs-lg-5 fs-sm-6 fs-base fw-bold mb-0'>Range:</h2>
+             {/* <select id="dropdown" ref={itemsPerPage} onChange={(e) => { dropdownHandler(e) }} className="fs-small fs-md-base fs-lg-large form-select bg-primary text-white me-2 mx-sm-3">
         {options.map((opt) => (
           <option key={opt} value={opt} >
             {opt}
           </option>
         ))}
-      </select>
+      </select> */}
+      <select id="dropdown" 
+      // ref={itemsPerPage} 
+      value={perPageVal}
+      onChange={dropdownHandler} 
+      className="fs-small fs-md-base fs-lg-large form-select bg-primary text-white me-2 mx-sm-3" >
+         {options.map((opt) => ( <option key={opt.end} value={opt.end}> {opt.label} </option> ))} 
+         </select>
             </div>
         </div>
 

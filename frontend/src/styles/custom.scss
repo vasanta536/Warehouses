@@ -13,7 +13,8 @@ $custom-utilities: (
             // 11rem: 1.1rem // for large screens
             small: 0.9rem, 
             base: 1rem, 
-            large: 1.1rem
+            large: 1.1rem,
+            1p5em:1.5em
         )),
 
     "gap":(property: gap,
@@ -32,10 +33,12 @@ $custom-utilities: (
         class: w,
         responsive:true,
         values: (150px: 150px,
-            // 40vh: 40vh,
+            35em: 35em,
             23em: 23em,
             5em: 5em,
-            20em:20em)),
+            20em:20em,
+            7em:7em
+            )),
 
     "right": (property: right,
         class: r,

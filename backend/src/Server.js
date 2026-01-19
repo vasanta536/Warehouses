@@ -16,4 +16,4 @@ app.use(cors());
 app.use(express.json()); // parse JSON
 app.use("/api", warehouseRoutes); // mount routes
 
-app.listen(5000, () => console.log("✅ Server running on port 5000"));
+app.listen(5000, () => console.log(" Server running on port 5000"));

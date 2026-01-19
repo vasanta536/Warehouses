@@ -11,13 +11,18 @@ const Header: React.FC = () => {
     if (e.target.value === "AddWarehouse") navigate("/add-warehouse");
     if (e.target.value === "ListedWarehouse") navigate("/listed-warehouse");
   }
-
   const location = useLocation();
   useEffect(() => {
     if (location.state?.dropdown) {
+  console.log("location.state?.dropdown",location.state?.dropdown)
+
       setSelected(location.state.dropdown);
     }
   }, [location.state]);
+
+  const handleLogout=()=>{
+    navigate("/logout")
+  }
 
   return (
     <header className="d-flex  g-small g-md-base g-lg-large align-items-center">
@@ -39,6 +44,7 @@ const Header: React.FC = () => {
               <option value="ListedWarehouse">Listed Warehouse</option>
             </select>
           </li>
+          <li onClick={handleLogout}>Logout</li>
         </ul>
       </nav>
     </header>

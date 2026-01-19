@@ -195,7 +195,7 @@ export default function AddWarehouseForm(): React.ReactElement {
         try {
 
             if (id) {
-                const res = await axios.put(`${API_URL}/warehouse/${id}`, formData, // ✅ use formData 
+                const res = await axios.put(`${API_URL}/warehouse/${id}`, formData, //  use formData 
                     { headers: { "Content-Type": "multipart/form-data" } });
                 console.log("Updated:", res.data);
 
@@ -233,7 +233,8 @@ export default function AddWarehouseForm(): React.ReactElement {
     };
 
     const handleBack = () => {
-        navigate("/listed-warehouse");
+        // navigate("/listed-warehouse");
+        navigate("/listed-warehouse", { state: { dropdown: "ListedWarehouse" } });
     }
     const [show, setShow] = useState(false);
     function getDisplayName(value: string | File | null): string { if (!value) return ""; return value instanceof File ? value.name : value; }
