@@ -8,6 +8,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../app/store'
 // import { increment, decrement } from '../features/counter/counterSlice';
 import { setPerPageCount } from '../features/counter/counterSlice';
+import Button from "@mui/material/Button";
 
 
 type Warehouse = {
@@ -96,9 +97,6 @@ const navigate = useNavigate();
 
   const dropdownHandler = (e: React.ChangeEvent<HTMLSelectElement>) => {
     console.log(">>>>>>>>>>>>>>>>>>",Number(itemsPerPage.current?.value))
-    // setPerPage(Number(itemsPerPage.current?.value))
-    // dispatch(setPerPageCount(Number(e.target.value)));
-    // dispatch(setPerPageCount(15))
     const selected = Number(e.target.value); // <-- use the actual selected value 
     dispatch(setPerPageCount(selected));
   }
@@ -180,8 +178,12 @@ const navigate = useNavigate();
           </div>
 
           <div className="col-12 col-lg-3 d-flex gap-2 mt-3">
-            <button onClick={handleSearch} className="btn btn-primary">Search</button>
-            <button onClick={handleReset} className="btn reset-btn">Reset</button>
+            {/* <button onClick={handleSearch} className="btn btn-primary">Search</button> */}
+             <Button variant="contained" color="primary" style={{ marginLeft: "10px" }} onClick={handleSearch}>Search</Button>
+            {/* <button onClick={handleReset} className="btn reset-btn">Reset</button> */}
+              <Button variant="text" className="reset-btn" style={{ marginLeft: "10px" , color: "black"}} onClick={handleReset}>
+        Reset
+      </Button>
           </div>
         </div>
 
@@ -209,7 +211,8 @@ const navigate = useNavigate();
                   <td>{w.stateName}</td>
                   <td>{w.plotArea}</td>
                   <td>{w.AllowedSpace ?? w.plotArea}</td>
-                  <td><button className='btn btn-info rounded-pill text-white w-lg-75 w-100'>Published</button></td>
+                  {/* <td><button className='btn btn-info rounded-pill text-white w-lg-75 w-100'>Published</button></td> */}
+            <td> <Button className='rounded-pill text-white w-lg-75 w-100' variant="contained" color="info" onClick={handleSearch}>Published</Button></td>
                   <td><SearchIcon className="action-icon" onClick={()=>{editWarehouse(w.id||w._id)}} /></td>
                 </tr>
               ))

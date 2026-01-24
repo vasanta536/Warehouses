@@ -3,6 +3,7 @@ import { useAuth } from "./useAuth";
 import { useNavigate } from "react-router-dom";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
+import Button from "@mui/material/Button";
 
 const RegisterSchema = Yup.object().shape({
     email: Yup.string().email("Invalid email format") // must be valid email 
@@ -57,7 +58,8 @@ export default function Register() {
                                         <ErrorMessage name="password" component="div" className="text-danger mt-1 fs-small" />
                                     </div>
                                 </div>
-                                <button className="w-100 bg-primary mt-3 rounded-1 text-white border-0 p-1" type="submit">Register</button>
+                                {/* <button className="w-100 bg-primary mt-3 rounded-1 text-white border-0 p-1" type="submit">Register</button> */}
+                                     <Button className="w-100 bg-primary mt-3 rounded-1 text-white border-0 p-1" variant="contained" color="primary" type="submit" > Register </Button>
                             </Form>
                         </Formik>
                         <p className="text-center">Already have an account? <a href="/login"> Sign In instead</a></p>

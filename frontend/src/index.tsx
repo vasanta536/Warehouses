@@ -7,6 +7,15 @@ import { BrowserRouter } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { store } from './app/store';
 import { Provider } from 'react-redux';
+import { ThemeProvider, createTheme } from "@mui/material/styles";
+
+declare module "@mui/material/styles" { interface Palette { black: Palette["primary"]; } interface PaletteOptions { black?: PaletteOptions["primary"]; } } declare module "@mui/material/Button" { interface ButtonPropsColorOverrides { black: true; } }
+
+const theme = createTheme({ palette: { primary: { main: "#1976d2" }, // blue
+                                     secondary: { main: "#dc004e" }, // pink/red 
+                                     black: { main: "#000000" },
+                                     info:{main:"#0dcaf0"}
+                                    }, });
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -14,10 +23,11 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <BrowserRouter>
+    <ThemeProvider theme={theme}>
   <Provider store={store}>
     <App />
   </Provider>
-
+</ThemeProvider>
     </BrowserRouter>
   </React.StrictMode>
 );

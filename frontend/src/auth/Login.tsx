@@ -3,6 +3,7 @@ import "../styles/custom.scss"
 import { useNavigate } from "react-router-dom";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
+import Button from "@mui/material/Button";
 
 
 const LoginSchema = Yup.object().shape({
@@ -60,7 +61,8 @@ export default function Login() {
                                     </div>
 
 
-                                    <button className="w-100 bg-primary mt-3 rounded-1 text-white border-0 p-1" type="submit">Login</button>
+                                    {/* <button className="w-100 bg-primary mt-3 rounded-1 text-white border-0 p-1" type="submit">Login</button> */}
+                                     <Button className="w-100 bg-primary mt-3 rounded-1 text-white border-0 p-1" variant="contained" color="primary" type="submit" > Login </Button>
                                 </Form>
                         </Formik>
                         <p className="text-center">New on our platform? <a href="/register">create an account</a></p>

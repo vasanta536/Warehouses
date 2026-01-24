@@ -7,6 +7,7 @@ import * as Yup from "yup";
 import "../styles/custom.scss"
 import ImageModal from "./ImageModal"
 import stateCityMap from '../data/stateCityMap';
+import Button from "@mui/material/Button";
 
 type WarehouseFormValues = {
     name: string;
@@ -587,8 +588,13 @@ export default function AddWarehouseForm(): React.ReactElement {
 
                         <div className='bg-light my-3 p-0 hr-line'></div>
                         <div className="d-flex justify-content-center gap-2 mt-2 mb-4">
-                            <button type="submit" className='btn btn-info mb-4 text-white'>Submit</button>
-                            <button className='btn btn-outline-secondary mb-4' onClick={handleBack}>Back</button>
+                            {/* <button type="submit" className='btn btn-info mb-4 text-white'>Submit</button> */}
+                            <Button variant="contained" color="info" className=' mb-4 text-white' type="submit">Submit</Button>
+                            {/* <button className='btn btn-outline-secondary mb-4' onClick={handleBack}>Back</button> */}
+                            <Button className='mb-4' onClick={handleBack} variant="outlined"
+                            //  style={{color:"black", borderColor:"black"}}
+                            color="black"
+                            > Back </Button>
                         </div>
                         {success && <div className="text-success fw-semibold text-center" role="status">{success}</div>}
                         {errorMessage && <div className="text-danger fw-semibold text-center" role="alert">{errorMessage}</div>}
